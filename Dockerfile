@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl ca-certificates ripgrep ffmpeg \
@@ -12,7 +12,9 @@ ENV PATH="/root/.local/bin:$PATH"
 RUN git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.git /opt/hermes-agent
 
 WORKDIR /opt/hermes-agent
-RUN uv venv venv --python 3.11 \
+# Upstream hermes-agent declares its core dependencies only for Python >= 3.14,
+# so an older interpreter installs none of them and the CLI fails on import.
+RUN uv venv venv --python 3.14 \
     && VIRTUAL_ENV=/opt/hermes-agent/venv uv pip install -e ".[all]"
 
 ENV PATH="/opt/hermes-agent/venv/bin:$PATH"
