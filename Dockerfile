@@ -39,8 +39,10 @@ RUN git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.
 WORKDIR /opt/hermes-agent
 # Upstream hermes-agent declares its core dependencies only for Python >= 3.14,
 # so an older interpreter installs none of them and the CLI fails on import.
+# Messaging platforms (Telegram) and the Google Workspace skill are opt-in extras upstream,
+# no longer part of [all], so install them explicitly.
 RUN uv venv venv --python 3.14 \
-    && VIRTUAL_ENV=/opt/hermes-agent/venv uv pip install -e ".[all]" \
+    && VIRTUAL_ENV=/opt/hermes-agent/venv uv pip install -e ".[all,messaging,google]" \
     && venv/bin/python -c "import sqlite3, sys; sys.exit('venv SQLite %s still has the WAL-reset bug' % sqlite3.sqlite_version) if sqlite3.sqlite_version_info < (3, 51, 3) else None"
 
 ENV PATH="/opt/hermes-agent/venv/bin:$PATH"

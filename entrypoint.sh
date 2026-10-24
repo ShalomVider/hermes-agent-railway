@@ -8,7 +8,7 @@ if [ "$AUTO_UPDATE" = "true" ]; then
   cd /opt/hermes-agent
   if git pull --recurse-submodules 2>&1 | grep -v 'Already up to date'; then
     echo "Updating dependencies..."
-    VIRTUAL_ENV=/opt/hermes-agent/venv uv pip install -e ".[all]" --quiet
+    VIRTUAL_ENV=/opt/hermes-agent/venv uv pip install -e ".[all,messaging,google]" --quiet
     echo "Update complete."
   else
     echo "Already up to date."
