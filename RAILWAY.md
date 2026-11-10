@@ -29,7 +29,8 @@ Your agent needs an AI model to work. [OpenRouter](https://openrouter.ai/) is th
 3. BotFather will give you a bot token — copy it
 4. In the Hermes dashboard, go to the **API Keys** page
 5. Paste the token into the `TELEGRAM_BOT_TOKEN` field and save
-6. Also set `GATEWAY_ALLOW_ALL_USERS=true` (or set `TELEGRAM_ALLOWED_USERS` to your Telegram user ID for restricted access)
+6. Set `TELEGRAM_ALLOWED_USERS` to your own Telegram user ID (send any message to [@userinfobot](https://t.me/userinfobot) to get it). Several IDs are separated by commas.
+   **Never set `GATEWAY_ALLOW_ALL_USERS=true`.** Hermes has terminal access in this container, so anyone who finds the bot could run commands on the server.
 7. The gateway will restart automatically — check the status widget in the bottom-right corner
 
 ### 4. Test It

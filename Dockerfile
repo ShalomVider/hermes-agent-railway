@@ -34,7 +34,12 @@ RUN ln -sf libsqlite3.so.3.53.4 /usr/local/lib/libsqlite3.so.0 \
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.local/bin:$PATH"
 
-RUN git clone --recurse-submodules https://github.com/NousResearch/hermes-agent.git /opt/hermes-agent
+# Hermes is pinned to a reviewed upstream commit, so a new push upstream never runs here
+# by itself. To update: check the upstream changes, then change HERMES_REF and redeploy.
+ARG HERMES_REF=43b11cae8b5347f25534ea48cfe7116d1edb7ed3
+RUN git clone https://github.com/NousResearch/hermes-agent.git /opt/hermes-agent \
+    && git -C /opt/hermes-agent checkout --quiet --detach "${HERMES_REF}" \
+    && git -C /opt/hermes-agent submodule update --quiet --init --recursive
 
 WORKDIR /opt/hermes-agent
 # Upstream hermes-agent declares its core dependencies only for Python >= 3.14,

@@ -12,7 +12,7 @@ This template goes beyond a basic Hermes deploy:
 - **Messaging gateway included** — Telegram, Discord, and Slack bots run alongside the dashboard. Configure platform tokens in the UI, hit restart, and your bot is live.
 - **Gateway management widget** — a floating status indicator and restart button injected into the dashboard. See at a glance if the gateway is running, restart it after config changes without redeploying.
 - **Cookie-based auth** — password-protected login page with session cookies. No repeated browser auth prompts like basic auth templates.
-- **Auto-updates** — pulls the latest Hermes release on every container restart. Always up to date, no manual intervention. Disable with `AUTO_UPDATE=false` to pin a version.
+- **Pinned Hermes version** — the image builds a reviewed upstream commit (`HERMES_REF` in the Dockerfile). To update, review upstream and change `HERMES_REF`. `AUTO_UPDATE=true` pulls upstream main on every restart instead; it is off by default because it runs unreviewed code as root.
 - **Zero config to start** — deploy with just a password, then set up everything else (LLM provider, API keys, messaging platforms) from the dashboard UI.
 - **Persistent storage** — attach a Railway volume to keep sessions, memories, config, and logs across redeploys.
 
@@ -30,7 +30,7 @@ This template goes beyond a basic Hermes deploy:
 |---|---|
 | `DASHBOARD_USER` | Login username (default: `admin`) |
 | `DASHBOARD_PASSWORD` | Login password (**required** — deploy will fail without it) |
-| `AUTO_UPDATE` | Pull latest Hermes on every restart (default: `true`, set to `false` to pin version) |
+| `AUTO_UPDATE` | Pull upstream main on every restart (default: `false`; the pinned `HERMES_REF` runs) |
 
 All other configuration is done through the dashboard after deploy.
 
